@@ -1,5 +1,5 @@
 <table>
-    <tr *ngFor = 'let row of gameGrid'>
-        <td *ngFor = 'let elem of row'>{{elem}}</td>
+    <tr *ngFor = 'let row of gameGrid; index as i'>
+        <td *ngFor = 'let elem of row; index as j' (click) ="placeMove(i,j)">{{elem | playerSymbol}}</td>
     </tr>
 </table>
