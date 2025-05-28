@@ -21,6 +21,8 @@ export class GameGridComponent implements OnInit{
     this.playerChar = 'X';
   }
   placeMove(i:number, j: number) {
+      if(this.gameGrid[i][j] != -1)
+        return;
       console.log("Game state before playing: ",this.gameGrid);
       console.log("player's turn");
       this.playerMove(i,j);
