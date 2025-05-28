@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TurnService } from '../turn.service';
 
 @Component({
   selector: 'game-grid',
@@ -20,6 +21,7 @@ export class GameGridComponent implements OnInit{
     console.log("initial state: ",this.gameGrid);
     this.playerChar = 'X';
   }
+  constructor(private turnService: TurnService) {}
   placeMove(i:number, j: number) {
       if(this.gameGrid[i][j] != -1)
         return;
@@ -44,6 +46,7 @@ export class GameGridComponent implements OnInit{
     this.gameGrid[i][j] = this.playerChar === 'X' ? 0 : this.playerChar === 'O' ? 1 : -1;
     console.log("game state: ",this.gameGrid);
     console.log("Assumed to be single cell: ", this.gameGrid[i][j]);
+    this.turnService.switchTurn();
   }
   playerMove(i:number,j:number) {
     console.log("Row index for Player movement: ",i);
@@ -51,5 +54,6 @@ export class GameGridComponent implements OnInit{
     this.gameGrid[i][j] = this.playerChar === 'X' ? 1 : this.playerChar === 'O' ? 0 : -1;
     console.log("Game state after player placement: ",this.gameGrid);
     console.log("Assumed to be single cell: ", this.gameGrid[i][j]);
+    this.turnService.switchTurn();
   }
 }
