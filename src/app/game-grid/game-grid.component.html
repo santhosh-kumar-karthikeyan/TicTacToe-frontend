@@ -3,3 +3,4 @@
         <td *ngFor = 'let elem of row; index as j' (click) ="placeMove(i,j)">{{elem | playerSymbol}}</td>
     </tr>
 </table>
+<status-modal [hasWon] = "wonPlayer"></status-modal>

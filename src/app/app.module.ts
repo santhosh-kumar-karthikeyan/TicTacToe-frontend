@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { GameGridComponent } from './game-grid/game-grid.component';
 import { PlayerSymbolPipe } from './player-symbol.pipe';
 import { StatsPanelComponent } from './stats-panel/stats-panel.component';
+import { StatusModalComponent } from './status-modal/status-modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GameGridComponent,
     PlayerSymbolPipe,
-    StatsPanelComponent
+    StatsPanelComponent,
+    StatusModalComponent
   ],
   imports: [
     BrowserModule,

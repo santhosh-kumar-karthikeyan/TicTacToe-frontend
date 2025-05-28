@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { TurnService } from '../turn.service';
+import { CheckWinService } from '../check-win.service';
 
 @Component({
   selector: 'game-grid',
@@ -11,6 +12,7 @@ export class GameGridComponent implements OnInit{
   clock!: number; // simulates the move count, odd count corresponding to players and even to the CPU
   gameGrid: number[][] = Array(3).fill(null).map(() => Array(3).fill(-1)) // represents the cell states, with 1 for X, 0 for O and -1 for empty.
   playerChar!: string;
+  wonPlayer!: string;
   //intialises the gameGrid with -1's in all rows and columns
   ngOnInit(): void {
     this.clock = 1;
@@ -18,18 +20,27 @@ export class GameGridComponent implements OnInit{
     //it update values in the whole column when one value is changed.
     this.gameGrid = Array(3).fill(null).map(() => Array(3).fill(-1));
     //this initialises the grid correctly with independent arrays as oppposed to before solving the bug of values changing across rows.
-    console.log("initial state: ",this.gameGrid);
     this.playerChar = 'X';
+    this.wonPlayer = ' ';
   }
-  constructor(private turnService: TurnService) {}
+  constructor(private turnService: TurnService,private checkWin: CheckWinService) {}
   placeMove(i:number, j: number) {
       if(this.gameGrid[i][j] != -1)
         return;
-      console.log("Game state before playing: ",this.gameGrid);
       console.log("player's turn");
       this.playerMove(i,j);
+      let status = this.checkWin.hasWon(this.gameGrid)
+      if(status !== -1 ) {
+        this.wonPlayer = status === 1 ? 'X' : status === 0 ? 'O' : ' ';
+        return;
+      }
       console.log("CPU turn");
       this.cpuMove();
+      status = this.checkWin.hasWon(this.gameGrid)
+      if(status !== -1 ) {
+        this.wonPlayer = status === 1 ? 'X' : status === 0 ? 'O' : ' ';
+        return;
+      }
   }
   getBestCpuMove(): number[]  {
     const emptyRowIndex: number = this.gameGrid.findIndex(row => row.includes(-1));
@@ -41,19 +52,12 @@ export class GameGridComponent implements OnInit{
   }
   cpuMove() {
     const [i,j] = this.getBestCpuMove();
-    console.log("Row index for CPU movement: ",i);
-    console.log("Col Index for CPU movement: ",j);
     this.gameGrid[i][j] = this.playerChar === 'X' ? 0 : this.playerChar === 'O' ? 1 : -1;
-    console.log("game state: ",this.gameGrid);
-    console.log("Assumed to be single cell: ", this.gameGrid[i][j]);
     this.turnService.switchTurn();
   }
   playerMove(i:number,j:number) {
-    console.log("Row index for Player movement: ",i);
-    console.log("Col index for Player movement: ",j);
     this.gameGrid[i][j] = this.playerChar === 'X' ? 1 : this.playerChar === 'O' ? 0 : -1;
-    console.log("Game state after player placement: ",this.gameGrid);
-    console.log("Assumed to be single cell: ", this.gameGrid[i][j]);
+    console.log(this.checkWin.hasWon(this.gameGrid));
     this.turnService.switchTurn();
   }
 }
