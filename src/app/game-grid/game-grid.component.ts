@@ -25,7 +25,7 @@ export class GameGridComponent implements OnInit{
   }
   constructor(private turnService: TurnService,private checkWin: CheckWinService) {}
   placeMove(i:number, j: number) {
-      if(this.gameGrid[i][j] != -1)
+      if(this.gameGrid[i][j] != -1 || this.checkWin.hasWon(this.gameGrid) !== -1)
         return;
       console.log("player's turn");
       this.playerMove(i,j);
