@@ -1,5 +1,4 @@
-table,tr,td {
-    border: solid 2px black;
+td ,tr{
     border-collapse: collapse;
 }
 table {
@@ -9,6 +8,6 @@ table {
 td {
     width: 10px;
     height: 10px;
-    background-color: red;
+    background-color: #4B70F5;
     text-align: center;
 }

@@ -1,4 +1,10 @@
 game-grid {
     width: 100%;
     height: 99vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+body {
+    background-color: #7B6D8D;
 }
